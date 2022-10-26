@@ -1,66 +1,64 @@
 document.addEventListener("DOMContentLoaded", () => {
-	//Mind
-	document.getElementById("mind").addEventListener("click", async () => {
+	document.getElementById("all").addEventListener("click", async () => {
 		let response = await fetch("products.json");
 		let result = await response.json();
 		printData(result.products);
 	});
 
-	//ABC order
-	document.getElementById("abc").addEventListener("click", async () => {
-		let response = await fetch("products.json");
-		let result = await response.json();
+	document
+		.getElementById("aplhabetical")
+		.addEventListener("click", async () => {
+			let response = await fetch("products.json");
+			let result = await response.json();
 
-		let order = result.products.sort(function (a, b) {
-			let first = a.title.toUpperCase();
-			let second = b.title.toUpperCase();
+			let order = result.products.sort(function (a, b) {
+				let first = a.title.toUpperCase();
+				let second = b.title.toUpperCase();
 
-			if (first < second) {
-				return -1;
-			} else if (first > second) {
-				return 1;
-			} else {
-				return 0;
-			}
+				if (first < second) {
+					return -1;
+				} else if (first > second) {
+					return 1;
+				} else {
+					return 0;
+				}
+			});
+			printData(order);
 		});
-		printData(order);
-	});
 
-	//Legdrágább
-	document.getElementById("legdragabb").addEventListener("click", async () => {
-		let response = await fetch("products.json");
-		let result = await response.json();
+	document
+		.getElementById("mostExpensive")
+		.addEventListener("click", async () => {
+			let response = await fetch("products.json");
+			let result = await response.json();
 
-		let expensive = result.products.sort((a, b) => {
-			if (a.price < b.price) {
-				return 1;
-			} else if (a.price > b.price) {
-				return -1;
-			} else {
-				return 0;
-			}
+			let expensive = result.products.sort((a, b) => {
+				if (a.price < b.price) {
+					return 1;
+				} else if (a.price > b.price) {
+					return -1;
+				} else {
+					return 0;
+				}
+			});
+			printData(expensive);
 		});
-		printData(expensive);
-	});
 
-	//Leírás
-	document.getElementById("leiras").addEventListener("click", async () => {
-		let response = await fetch("products.json");
-		let result = await response.json();
-		let filterezes = result.filter(() => {
-			return result.description.contains(
-				document.getElementById("szovegmezo").value
-			);
+	document
+		.getElementById("searchButton")
+		.addEventListener("click", async () => {
+			let response = await fetch("products.json");
+			let result = await response.json();
+			let inputText = document.getElementById("szovegmezo").value;
+			let filtering = result.filter(() => {
+				return result.description.includes(inputText.toLowerCase());
+			});
+			printData(filtering);
 		});
-		printData(filterezes);
-	});
 
-	//Ajánlat
-	document.getElementById("ajanlat").addEventListener("click", async () => {
+	document.getElementById("offer").addEventListener("click", async () => {
 		let response = await fetch("products.json");
 		let result = await response.json();
-
-		//printData(termekLista);
 	});
 
 	function printData(termekek) {
@@ -92,5 +90,3 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	}
 });
-
-//let appleTermekek = result.products.filter(e => e.brand === 'Apple')
